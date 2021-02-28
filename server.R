@@ -44,25 +44,26 @@ function(input, output, session) {
   #----------------------------------------------------------------------------#
   #                            Startup config                                  #
   #----------------------------------------------------------------------------#
-  if (file.exists(".localtf")) {
-    print("using local TensorFlow")
-  } else if (Sys.info()[["sysname"]] == "Darwin") {
+  #if (file.exists(".localtf")) {
+  #  print("using local TensorFlow")
+  #} else if (Sys.info()[["sysname"]] == "Darwin") {
     # When running locally use conda env
-    reticulate::use_condaenv("tensor2pip", required = TRUE)
-    print(reticulate::py_config())
-  } else {
+  #reticulate::use_condaenv("tensorflow2env", required = TRUE)
+  #print(reticulate::py_config())
+  #} else {
     
     # When running on shinyapps.io, create a virtualenv
-    reticulate::virtualenv_create(envname = "pytensor_env",
-                                 python = "/usr/bin/python3")
-    reticulate::virtualenv_install("pytensor_env", packages = c("numpy"))
-    reticulate::use_virtualenv("pytensor_env", required = T)
+    #reticulate::virtualenv_create(envname = "pytensor_env",
+    #                             python = "/usr/bin/python3")
+    #reticulate::virtualenv_install("pytensor_env", packages = c("numpy"))
+    #reticulate::use_virtualenv("pytensor_env", required = T)
     library("tensorflow")
     #Collecting tensorflow-cpu==2.2.0
     #tensorflow::install_tensorflow(method = "virtualenv", version = "2.2.0-cpu", envname = "pytensor_env")
-    tensorflow::install_tensorflow(method = "virtualenv", version = "cpu", envname = "pytensor_env")
-    #reticulate::use_python("/usr/bin/python3")
-    #print(reticulate::py_config())
+    #tensorflow::install_tensorflow(method = "virtualenv", version = "cpu", envname = "pytensor_env")
+    reticulate::use_python("~/../public/.virtualenvs/pytensor_env/bin/python")
+    Sys.setenv(RETICULATE_PYTHON="~/../public/.virtualenvs/pytensor_env/bin/python")
+    print(reticulate::py_config())
     #print("tensorflow available: ")
     #print(reticulate::py_module_available("tensorflow"))
     #path <- file.path(system.file(package = "Bratwurst"), "python/")
@@ -73,7 +74,7 @@ function(input, output, session) {
     # print(py_list_attributes(tensorBratwurst))
     # print("imported")
     
-  }
+  #}
   library(reticulate)
   #library(Bratwurst)
   library(ButchR)
